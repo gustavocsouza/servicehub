@@ -181,11 +181,9 @@ Cobertura:
 
 ## Decisões de arquitetura
 
-**Fila com driver `database`**
-Escolhido por não exigir infraestrutura adicional (Redis, etc.). A tabela `jobs` já vem na migration padrão do Laravel 12. Para produção, trocar para Redis é uma mudança de uma linha no `.env`.
 
 **Notificação com canal `database`**
-Evita dependência de configuração SMTP no ambiente de avaliação. As notificações ficam na tabela `notifications` e são acessíveis via `$user->notifications`. Adicionar o canal `mail` exige apenas incluir `'mail'` no array `via()` da notification.
+Usei o database por ser mais simples, mas poderia ter feito com o Mail, talvez ficaria mais interessante para notificar o usuário. As notificações ficam na tabela `notifications` e são acessíveis via `$user->notifications`. 
 
 **Constraint `unique` na FK para os relacionamentos 1:1**
 O relacionamento 1:1 entre `Ticket` e `TicketDetail` (e entre `User` e `UserProfile`) é garantido no nível do banco via `->unique()` na chave estrangeira, não apenas no Eloquent. Isso impede duplicatas mesmo com acesso direto ao banco.
@@ -194,4 +192,4 @@ O relacionamento 1:1 entre `Ticket` e `TicketDetail` (e entre `User` e `UserProf
 Garante integridade referencial: ao excluir um ticket, o `TicketDetail` associado é removido automaticamente pelo banco, sem lógica adicional no código.
 
 **Starter kit Vue oficial (Laravel 12)**
-Usado no lugar do Breeze (removido do instalador no Laravel 12). Entrega autenticação completa via Fortify, Inertia 2, Vue 3 e Tailwind sem configuração manual.
+Usei o starter kit do Vue por ja ter experiência com o Vue. Usei a autenticação padrão ja configurada do Laravel.
