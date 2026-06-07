@@ -56,7 +56,7 @@ cd servicehub
 **2. Instale as dependências PHP**
 
 ```bash
-docker run --rm -v $(pwd):/app composer install --no-interaction
+composer install
 ```
 
 **3. Configure o ambiente**
