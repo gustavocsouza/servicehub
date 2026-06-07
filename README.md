@@ -17,12 +17,6 @@ Aplicação web para gestão de ordens de serviço, construída como desafio té
 
 ## Domínio
 
-```
-Company (1) ──── (N) Project (1) ──── (N) Ticket (1) ──── (1) TicketDetail
-                                           │
-User (1) ──────────────────────────── (N) ┘
-User (1) ──── (1) UserProfile
-```
 
 - **Company → Project**: uma empresa possui vários projetos.
 - **Project → Ticket**: um projeto possui vários tickets.
@@ -38,7 +32,7 @@ User (1) ──── (1) UserProfile
 - Listagem, criação e exclusão de tickets.
 - Upload opcional de anexo (JSON ou TXT) ao criar um ticket.
 - Processamento assíncrono via fila: um Job lê o anexo, enriquece o `TicketDetail` com prioridade, categoria e metadados, e notifica o responsável.
-- Notificações gravadas no banco (canal `database`), com página dedicada para visualização e marcação como lida.
+- Notificações gravadas no banco (`database`)
 - Testes automatizados com Pest cobrindo relacionamentos, rotas e o Job.
 
 ---
@@ -84,6 +78,29 @@ DB_PASSWORD=password
 QUEUE_CONNECTION=database
 ```
 
+
+**Linux:** Se precisar de `sudo` para rodar o Docker, adicione seu usuário ao grupo Docker para evitar isso:
+```bash
+sudo usermod -aG docker $USER
+```
+Depois faça logout e login novamente. Se preferir não fazer isso agora, prefixe os comandos `sail` com `sudo`.
+
+O Sail precisa de duas variáveis adicionais no `.env` para mapear corretamente 
+as permissões de arquivo entre o container e o host. Rode `id` no terminal para obter os valores:
+
+```bash
+id -g
+```
+
+Copie o valor retornado e adicione no `.env` no meu caso foi o "1000":
+
+```ini
+WWWUSER=1000
+WWWGROUP=1000
+```
+
+Os valores `1000` são os mais comuns no Linux, mas confirme com o comando `id` na sua máquina.
+
 **4. Suba os containers**
 
 ```bash
@@ -115,7 +132,7 @@ QUEUE_CONNECTION=database
 ./vendor/bin/sail artisan queue:work
 ```
 
-A aplicação estará disponível em **http://localhost**.
+A aplicação estará disponível em **http://localhost:8000**.
 
 ---
 
