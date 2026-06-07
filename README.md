@@ -49,7 +49,7 @@ Aplicação web para gestão de ordens de serviço, construída como desafio té
 **1. Clone o repositório**
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/gustavocsouza/servicehub.git
 cd servicehub
 ```
 
